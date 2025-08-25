@@ -5,9 +5,14 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
 
+import os
 import pandas as pd
+from dotenv import load_dotenv
 
-df = pd.read_csv("C:\\Repo\\ai_tutorial\\tictactoe.csv")
+load_dotenv()
+csv_path = os.getenv("T3_DATA_FILE_PATH")
+
+df = pd.read_csv(csv_path)
 columns = ["c0","c1","c2","c3","c4","c5","c6","c7","c8"]
 # 0,0,0, 0,0,0, 0,0,0
 sample_set = [[1,0,0, 1,-1,0, 0,-1,0]]
