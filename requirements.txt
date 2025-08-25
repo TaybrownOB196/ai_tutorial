@@ -2,3 +2,4 @@ openai
 python-dotenv
 sklearn
 pandas
+joblib==1.5.1
