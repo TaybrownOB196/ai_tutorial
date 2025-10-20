@@ -1,2 +1,6 @@
 .env
 samples/
+__pycache__/
+*.pyc
+build/
+dist/
