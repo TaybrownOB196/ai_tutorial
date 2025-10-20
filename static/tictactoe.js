@@ -1,6 +1,7 @@
 const p1 = 1;
 const p2 = -1;
 const board = [0,0,0, 0,0,0, 0,0,0]
+let label = undefined
 
 var isP1Turn = true;
 var isGameOver = false;
@@ -10,10 +11,15 @@ var resetBtn = document.getElementById("reset");
 resetBtn.addEventListener('click', () => {
     reset();
 });
+var recordBtn = document.getElementById("record");
+recordBtn.addEventListener('click', () => {
+    record();
+});
 
 var squares = container.getElementsByTagName("div")
 for (let idx=0; idx<squares.length; idx++) {
-    squares[idx].addEventListener("click", () => handleOnClick(idx))
+    squares[idx].addEventListener("click", () => handleOnClick(idx));
+    squares[idx].addEventListener("contextmenu", () => handleOnRightClick(idx));
 }
 
 const CheckGameOver = (idx) => {
@@ -87,6 +93,34 @@ const reset = () => {
     for (let idx=0; idx<board.length; idx++) {
         board[idx] = 0;
         squares[idx].innerHTML = '';
+    }
+    label = undefined;
+}
+
+const record = () => {
+    var payload = {
+        board: board,
+        label: label
+    };
+    var uri = 'http://127.0.0.1:5000/tictactoe';
+    fetch(uri, {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json'},
+        body: JSON.stringify(payload)
+    }).then((res) => {
+        reset();
+    }).catch((err) => {
+        console.log(err)
+    });
+}
+
+const handleOnRightClick = (idx) => {
+    if (isGameOver) {
+        return;
+    }
+
+    if (board[idx] === 0) {
+        label = idx;
     }
 }
 
