@@ -1,0 +1,27 @@
+body {
+    background-color: pink;
+}
+
+#container {
+    display: grid;
+    row-gap: 4px;
+}
+
+span {
+    display: flex;
+    gap: 4px;
+}
+
+span div {
+    height: 32px;
+    width: 32px;
+    border: 1px solid black;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+span div:hover {
+    background-color: yellow;
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TicTacToe</title>
+        <base href='#'>
+        <meta charset='UTF-8'>
+        <meta name='author' content='Taylor Brown'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <link rel='stylesheet' href='{{ url_for("static", filename="tictactoe.css") }}'>
+    </head>
+    <body>
+        {% if player %}
+        <h1>Hello {{ player }}!</h1>
+        {% else %}
+        <h1>Hello Player One</h1>
+        {% endif %}
+
+        <div id='container'>
+            <span id='top'>
+                <div></div>
+                <div></div>
+                <div></div>
+            </span>
+
+            <span id='middle'>
+                <div></div>
+                <div></div>
+                <div></div>
+            </span>
+
+            <span id='bottom'>
+                <div></div>
+                <div></div>
+                <div></div>
+            </span>
+        </div>
+        <div id='results'>
+            <div>
+                <h3>P1 Wins</h3>
+                <p id='p1Wins'>0</p>
+            </div>
+            <div>
+                <h3>P2 Wins</h3>
+                <p id='p2Wins'>0</p>
+            </div>
+        </div>
+        <button id='reset'>Reset</button>
+        <script src='{{ url_for("static", filename="tictactoe.js") }}'></script>
+    </body>
+</html>
