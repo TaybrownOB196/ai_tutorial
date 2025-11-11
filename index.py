@@ -1,7 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 import csv
 import os
-import pandas as pd
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -10,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return '<p>Hello, World!</p>'
 
 @app.route('/tictactoe', methods=['GET'])
 def get():
@@ -35,7 +34,9 @@ def post():
     return jsonify({}), 200
 
 def write_result_set(result_set):
-    with open(os.getenv("T3_DATA_FILE_PATH"), 'a', newline='') as csvfile:
+    with open(os.getenv('T3_DATA_FILE_PATH'), 'a', newline='') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(result_set)
 
+if __name__ == '__main__':
+    app.run(debug=False,host='0.0.0.0',port=8080)

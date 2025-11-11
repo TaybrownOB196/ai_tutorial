@@ -1,0 +1,13 @@
+Dockerfile
+
+.env
+samples/
+__pycache__/
+*.pyc
+build/
+dist/
+
+.gitattributes
+
+test.csv
+t3_predicter.py
