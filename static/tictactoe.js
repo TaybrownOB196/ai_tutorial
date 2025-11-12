@@ -5,6 +5,7 @@ let label = undefined
 
 var isP1Turn = true;
 var isGameOver = false;
+var isUseCP = false;
 
 var container = document.getElementById("container");
 var resetBtn = document.getElementById("reset");
@@ -14,6 +15,19 @@ resetBtn.addEventListener('click', () => {
 var recordBtn = document.getElementById("record");
 recordBtn.addEventListener('click', () => {
     record();
+});
+var printBtn = document.getElementById("print");
+printBtn.addEventListener('click', () => {
+    print();
+});
+var getNextMoveBtn = document.getElementById("getNextMove");
+getNextMoveBtn.addEventListener('click', () => {
+    getNextMove();
+});
+var toggleCP = document.getElementById("toggleCP");
+toggleCP?.addEventListener('click', () => {
+    isUseCP = !isUseCP;
+    toggleCP.checked = isUseCP;
 });
 
 var squares = container.getElementsByTagName("div")
@@ -97,6 +111,13 @@ const reset = () => {
     label = undefined;
 }
 
+const print = () => {
+    console.log({
+        board: board,
+        label: label
+    });
+}
+
 const record = () => {
     var payload = {
         board: board,
@@ -114,6 +135,21 @@ const record = () => {
     });
 }
 
+const getNextMove = () => {
+    var uri = 'http://127.0.0.1:5000/tictactoe/nextmove'
+    var payload = { board: board };
+    fetch(uri, {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json'},
+        body: JSON.stringify(payload)
+    }).then(async (res) => {
+        var json = await res.json();
+        setMove(json.move);
+    }).catch((err) => {
+        console.log(err)
+    });
+}
+
 const handleOnRightClick = (idx) => {
     if (isGameOver) {
         return;
@@ -121,6 +157,7 @@ const handleOnRightClick = (idx) => {
 
     if (board[idx] === 0) {
         label = idx;
+        squares[idx].innerText = '*';
     }
 }
 
@@ -129,6 +166,10 @@ const handleOnClick = (idx) => {
         return;
     }
 
+    setMove(idx);
+}
+
+const setMove = (idx) => {
     if (board[idx] === 0) {
         board[idx] = getPlayerValue();
         squares[idx].innerText = getPlayerIcon();

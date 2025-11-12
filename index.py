@@ -2,10 +2,12 @@ from flask import Flask, render_template, jsonify, request
 import csv
 import os
 from dotenv import load_dotenv
+import joblib
 
 load_dotenv()
 
 app = Flask(__name__)
+loaded_model = joblib.load('ttt.model')
 
 @app.route('/')
 def hello_world():
@@ -32,6 +34,17 @@ def post():
     result_set = [*board, label]
     write_result_set(result_set)
     return jsonify({}), 200
+
+@app.route('/tictactoe/nextmove', methods=['POST'])
+def get_next_move():
+    data = request.get_json()
+    board = data.get('board')
+    res = loaded_model.predict([board]).tolist()[0]
+    payload = {
+        "move": res
+    }
+    print(payload)
+    return jsonify(payload), 200
 
 def write_result_set(result_set):
     with open(os.getenv('T3_DATA_FILE_PATH'), 'a', newline='') as csvfile:
